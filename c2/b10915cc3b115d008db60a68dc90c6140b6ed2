@@ -1,0 +1,21 @@
+backend/tests/test_chunking.py
+  s_7921fd8bab6396::t_eb630aa65b1c8e 1-26
+backend/worker/chunking.py
+  s_7921fd8bab6396::t_2b5bda145eacef 1-18
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.8",
+  "base_commit_sha": "c2b10915cc3b115d008db60a68dc90c6140b6ed2",
+  "prompts": {},
+  "sessions": {
+    "s_7921fd8bab6396": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3891f083-ae87-4242-90b1-2d7b28876901",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "xutianci <2378835994@qq.com>"
+    }
+  }
+}
