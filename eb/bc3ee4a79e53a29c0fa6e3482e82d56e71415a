@@ -1,0 +1,23 @@
+backend/services/record_store.py
+  s_7921fd8bab6396::t_7508130ce26ed7 1-55
+backend/models/record.py
+  s_7921fd8bab6396::t_87ecc51e00b5c4 1-13
+backend/tests/test_record_store.py
+  s_7921fd8bab6396::t_79a00980b8216c 1-39
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.8",
+  "base_commit_sha": "ebbc3ee4a79e53a29c0fa6e3482e82d56e71415a",
+  "prompts": {},
+  "sessions": {
+    "s_7921fd8bab6396": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3891f083-ae87-4242-90b1-2d7b28876901",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "xutianci <2378835994@qq.com>"
+    }
+  }
+}
