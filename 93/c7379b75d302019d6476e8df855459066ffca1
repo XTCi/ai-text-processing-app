@@ -1,0 +1,23 @@
+backend/core/logging.py
+  s_7921fd8bab6396::t_0eb2747519a091 1-42
+backend/main.py
+  s_7921fd8bab6396::t_aea714fb83883e 3,7-8
+backend/tests/test_logging.py
+  s_7921fd8bab6396::t_d9c2352bbd21c3 1-30
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.8",
+  "base_commit_sha": "93c7379b75d302019d6476e8df855459066ffca1",
+  "prompts": {},
+  "sessions": {
+    "s_7921fd8bab6396": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3891f083-ae87-4242-90b1-2d7b28876901",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "xutianci <2378835994@qq.com>"
+    }
+  }
+}
