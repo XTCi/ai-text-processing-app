@@ -31,5 +31,7 @@ async def on_startup() -> None:
 
 @app.on_event("shutdown")
 async def on_shutdown() -> None:
-    await app.state.redis.aclose()
-    await app.state.arq_pool.aclose()
+    if hasattr(app.state, "redis"):
+        await app.state.redis.aclose()
+    if hasattr(app.state, "arq_pool"):
+        await app.state.arq_pool.aclose()
