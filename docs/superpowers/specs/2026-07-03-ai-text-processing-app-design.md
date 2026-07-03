@@ -91,6 +91,36 @@ def call_model(messages, mode: Literal["fast", "think"], stream=True):
 
 若 `.env` 未配置 `LLM_API_KEY`，`llm_client` 回退到本地模拟模式（伪代码，注释清楚模拟逻辑），保证在没有真实 Key 的情况下也能跑通完整链路；真实调用链路（HTTP 请求结构、流式解析逻辑）保留不变，用户填入 Key 后即可直接切换为真实调用。
 
+## 核心任务执行架构（翻译 / 总结）
+
+题目对"翻译""总结"的具体实现没有约束，但直接把用户输入拼进一个 prompt 一次性调用模型，无法应对长文本（超出上下文窗口）也体现不出工程深度。这里为两个功能分别设计一个轻量工作流，而不是单次 prompt 调用，也不引入完整的 ReAct/工具调用循环（翻译、总结这两个任务本身不需要模型自主决策调用哪个工具，上 ReAct 属于过度设计）。两个工作流都与已确定的 `fast`/`think` 模式联动，模式不只是"换个模型"，而是真正改变执行路径的深度：
+
+**总结功能 — Map-Reduce 工作流（`pipelines/summarize.py`）**
+
+1. **分块（chunking）**：按 token 数对输入文本切分（如每块 ~3000 tokens，块间保留小段重叠避免语义在边界断裂）；若文本本身未超过单次上下文窗口，跳过分块，直接走单次调用，避免不必要开销。
+2. **Map**：对每个分块调用模型生成分块摘要。
+3. **Reduce**：拼接所有分块摘要，再调用一次模型生成满足用户"字数/要点数"约束的最终摘要；若拼接后仍然过长，递归再做一轮 Reduce。
+4. **模式联动**：Reduce 阶段（决定最终输出质量的一步）用 `think`/`fast` 对应的模型；Map 阶段（只是中间产出）始终用 `fast` 模型，控制成本和延迟。
+5. **进度反馈**：每完成一个分块的 Map，通过 SSE 推送一个进度事件（如"正在处理第 2/5 块"），避免长文本处理时前端长时间静默；Reduce 阶段的输出逐 token 流式推送，作为最终结果。
+
+**翻译功能 — Draft + Review 两步链（`pipelines/translate.py`）**
+
+1. **Draft**：调用模型生成初始翻译，逐 token 流式推送给前端/CLI。
+2. **Review（仅 `think` 模式）**：把原文+ Draft 一起交给模型，要求检查准确性、遗漏、生硬表达，输出修正版本；若模型判断无需修改，直接复用 Draft 结果，不做无意义的改写。Review 阶段的输出同样流式推送，前端在 Draft 结束、Review 开始前展示一个"精修中…"的过渡状态。
+3. **`fast` 模式跳过 Review**：只做 Draft 一次调用，保证短文本/快速场景的低延迟——这也是为什么之前把"思考模式"设计成前端可手动开关的原因，用户可以用它直接控制"要不要多花一次调用换取翻译质量"。
+
+**worker 侧目录结构：**
+```
+worker/
+├── tasks.py               # arq task 入口，按 function_type 路由到对应 pipeline
+├── pipelines/
+│   ├── summarize.py        # map-reduce 编排逻辑
+│   └── translate.py        # draft+review 两步链编排逻辑
+└── chunking.py              # 文本分块工具（按 token 数切分 + 重叠）
+```
+
+这两个 pipeline 都通过同一套"Redis pub/sub → SSE"机制推送中间与最终结果，对 API 层和前端来说是透明的：不管背后是一次调用还是多阶段工作流，消费方看到的都是同一个 token 流 + 偶尔穿插的进度事件。
+
 ## 后端模块
 
 ```
@@ -110,8 +140,12 @@ backend/
 │   ├── llm_client.py      # LLM API 封装（OpenAI 兼容格式，区分 fast/think 模式）
 │   └── task_service.py    # 任务入队、状态查询、取消逻辑
 ├── worker/
-│   └── tasks.py            # arq worker：执行翻译/总结、Redis pub/sub 推流、超时控制
-└── tests/                  # pytest，TDD 覆盖 services + api + worker
+│   ├── tasks.py             # arq task 入口，按 function_type 路由到对应 pipeline
+│   ├── pipelines/
+│   │   ├── summarize.py      # map-reduce 编排逻辑
+│   │   └── translate.py      # draft+review 两步链编排逻辑
+│   └── chunking.py            # 文本分块工具（按 token 数切分 + 重叠）
+└── tests/                  # pytest，TDD 覆盖 services + api + worker + pipelines
 ```
 
 **关键设计点：**
@@ -169,13 +203,13 @@ ai-app translate --text "Hello" --from en --to zh
 ai-app summarize --text "长文本..." --max-points 3
 ```
 
-内部流程：`POST /api/task` 拿 `taskId` → 轮询 `GET /api/task/{taskId}`（CLI 场景不需要 SSE，轮询更简单可靠）→ 任务完成后打印结果到终端。
+内部流程：`POST /api/task` 拿 `taskId` → 立即连接 `GET /api/task/{taskId}/stream` 消费 SSE（用 `sseclient` 或手写流式 HTTP 读取），逐 token 打印到终端模拟打字机效果，与前端体验一致；`Ctrl+C` 触发 `DELETE /api/task/{taskId}` 取消任务。
 
 `skill.md` 描述该 CLI 工具供 Agent（ClaudeCode/OpenClaw）发现并调用，包含：工具用途描述、命令格式与参数说明、输入输出示例、触发场景描述。Agent 调用截图需在真实 Agent 环境中手动操作产生，作为交付物之一保存到 `docs/`。
 
 ## 测试策略
 
-后端 pytest，严格 TDD：`llm_client`（mock 模型调用）、`task_service`（状态流转/取消逻辑）、API 层（`TestClient`）、CLI（`click.testing.CliRunner`）均先写测试再写实现。
+后端 pytest，严格 TDD：`llm_client`（mock 模型调用）、`task_service`（状态流转/取消逻辑）、`pipelines/summarize`（分块边界、Map-Reduce 合并逻辑）、`pipelines/translate`（Draft/Review 分支逻辑）、API 层（`TestClient`）、CLI（`click.testing.CliRunner`，含流式输出）均先写测试再写实现。
 
 前端 Vitest + Testing Library：只覆盖关键组件 —— `useSSETask` 状态流转、`StreamingOutput` 渲染、`ModeToggle` 交互，不追求全覆盖。
 
