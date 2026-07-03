@@ -1,5 +1,4 @@
 import importlib
-import os
 
 def test_settings_default_urls(monkeypatch):
     monkeypatch.delenv("LLM_API_KEY", raising=False)
