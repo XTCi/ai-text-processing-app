@@ -87,6 +87,7 @@ async def test_execute_task_stops_when_cancelled(monkeypatch, redis, tmp_path):
 
     task = await task_service.get_task(redis, task_id)
     assert task["status"] == "cancelled"
+    assert task.get("result") is None
 
 
 @pytest.mark.asyncio
@@ -109,3 +110,4 @@ async def test_execute_task_marks_failed_on_pipeline_error(monkeypatch, redis, t
     task = await task_service.get_task(redis, task_id)
     assert task["status"] == "failed"
     assert "model API down" in task["error"]
+    assert task.get("result") is None

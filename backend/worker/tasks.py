@@ -48,7 +48,7 @@ async def execute_task(ctx: dict, task_id: str) -> None:
 
     duration_ms = int((time.monotonic() - start) * 1000)
     await task_service.set_status(
-        redis, task_id, status, result=result_text, error=error_message, duration_ms=duration_ms
+        redis, task_id, status, result=result_text or None, error=error_message, duration_ms=duration_ms
     )
     await record_store.save_record(
         sqlite_path,
