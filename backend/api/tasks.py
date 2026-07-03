@@ -34,3 +34,11 @@ async def get_task_status(task_id: str, redis=Depends(get_redis)) -> TaskStatusR
         error=task.get("error"),
         duration_ms=duration_ms,
     )
+
+
+@router.delete("/api/task/{task_id}")
+async def cancel_task(task_id: str, redis=Depends(get_redis)) -> dict:
+    cancelled = await task_service.request_cancel(redis, task_id)
+    if not cancelled:
+        raise TaskNotFoundError(f"task {task_id} not found")
+    return {"cancelled": True}

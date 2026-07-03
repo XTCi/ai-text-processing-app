@@ -60,3 +60,20 @@ def test_get_task_status_missing_returns_404(client):
     c, _ = client
     resp = c.get("/api/task/does-not-exist")
     assert resp.status_code == 404
+
+
+def test_cancel_task(client):
+    c, _ = client
+    submit = c.post("/api/task", json={"function_type": "summarize", "text": "text"})
+    task_id = submit.json()["task_id"]
+    resp = c.delete(f"/api/task/{task_id}")
+    assert resp.status_code == 200
+    assert resp.json() == {"cancelled": True}
+    status = c.get(f"/api/task/{task_id}").json()
+    assert status["status"] == "pending"  # cancel flag set, worker applies it async
+
+
+def test_cancel_missing_task_returns_404(client):
+    c, _ = client
+    resp = c.delete("/api/task/does-not-exist")
+    assert resp.status_code == 404
