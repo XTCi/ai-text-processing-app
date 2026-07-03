@@ -3,6 +3,12 @@ def chunk_text(text: str, max_chars: int = 6000, overlap_chars: int = 400) -> li
     heuristic) since DeepSeek's tokenizer isn't published. Adjacent chunks
     overlap by `overlap_chars` so summaries don't lose context at a hard
     cut boundary."""
+    if overlap_chars < 0 or overlap_chars >= max_chars:
+        raise ValueError(
+            f"overlap_chars ({overlap_chars}) must be less than max_chars "
+            f"({max_chars}) and non-negative"
+        )
+
     if len(text) <= max_chars:
         return [text]
 

@@ -1,3 +1,5 @@
+import pytest
+
 from worker.chunking import chunk_text
 
 
@@ -24,3 +26,8 @@ def test_no_empty_chunks():
     text = "x" * 12001
     chunks = chunk_text(text, max_chars=6000, overlap_chars=400)
     assert all(len(c) > 0 for c in chunks)
+
+
+def test_raises_when_overlap_not_smaller_than_max_chars():
+    with pytest.raises(ValueError):
+        chunk_text("x" * 100, max_chars=100, overlap_chars=100)
