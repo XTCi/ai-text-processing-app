@@ -25,10 +25,8 @@ async def health() -> dict:
 
 @app.on_event("startup")
 async def on_startup() -> None:
-    if not hasattr(app.state, "redis"):
-        app.state.redis = redis_asyncio.from_url(settings.redis_url)
-    if not hasattr(app.state, "arq_pool"):
-        app.state.arq_pool = await create_pool(RedisSettings.from_dsn(settings.redis_url))
+    app.state.redis = redis_asyncio.from_url(settings.redis_url)
+    app.state.arq_pool = await create_pool(RedisSettings.from_dsn(settings.redis_url))
     app.state.sqlite_path = settings.sqlite_path
     await init_db(settings.sqlite_path)
 

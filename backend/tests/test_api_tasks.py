@@ -1,10 +1,12 @@
 # backend/tests/test_api_tasks.py
 from unittest.mock import AsyncMock
 
+import anyio
 import pytest
 from fakeredis import FakeAsyncRedis
 from fastapi.testclient import TestClient
 
+from core.deps import get_arq_pool, get_redis
 from main import app
 
 
@@ -12,15 +14,21 @@ from main import app
 def client():
     fake_redis = FakeAsyncRedis()
     fake_arq_pool = AsyncMock()
-    app.state.redis = fake_redis
-    app.state.arq_pool = fake_arq_pool
-    with TestClient(app) as c:
+    app.dependency_overrides[get_redis] = lambda: fake_redis
+    app.dependency_overrides[get_arq_pool] = lambda: fake_arq_pool
+    c = TestClient(app)
+    # Never call `with TestClient(app) as c:` here: entering as a context
+    # manager fires the real ASGI lifespan (main.on_startup), which eagerly
+    # opens a real Redis connection (arq's create_pool awaits pool.ping())
+    # -- exactly what these tests must not require. Instead we hand the
+    # client a manually-managed, persistent blocking portal so repeated
+    # calls in one test share a single event loop (fakeredis's internal
+    # asyncio.Queue binds to whichever loop first touches it and raises
+    # "bound to a different event loop" if a later call runs on a new one).
+    with anyio.from_thread.start_blocking_portal(**c.async_backend) as portal:
+        c.portal = portal
         yield c, fake_arq_pool
-    # Restore app.state so later tests (e.g. test_deps.py) that rely on
-    # main.on_startup creating a fresh real redis/arq pool aren't left
-    # with this test's fakes (module-level `app` is shared across the suite).
-    del app.state.redis
-    del app.state.arq_pool
+    app.dependency_overrides.clear()
 
 
 def test_submit_task_enqueues_job(client):
