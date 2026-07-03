@@ -1,0 +1,19 @@
+backend/api/functions.py
+  s_7921fd8bab6396::t_39337edd4c1bef 3-4,8-10
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.8",
+  "base_commit_sha": "27c61b3b2cd9588c0494920ceb51a5c06023974c",
+  "prompts": {},
+  "sessions": {
+    "s_7921fd8bab6396": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3891f083-ae87-4242-90b1-2d7b28876901",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "xutianci <2378835994@qq.com>"
+    }
+  }
+}
