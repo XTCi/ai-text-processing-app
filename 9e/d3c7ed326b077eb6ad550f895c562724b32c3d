@@ -1,0 +1,22 @@
+backend/tests/test_api_tasks.py
+  s_7921fd8bab6396::t_8636a7d297f112 9,17-18,31
+  s_7921fd8bab6396::t_92df0413d1449b 4,19-29
+backend/main.py
+  s_7921fd8bab6396::t_adc903b9950af9 28-29
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.8",
+  "base_commit_sha": "9ed3c7ed326b077eb6ad550f895c562724b32c3d",
+  "prompts": {},
+  "sessions": {
+    "s_7921fd8bab6396": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3891f083-ae87-4242-90b1-2d7b28876901",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "xutianci <2378835994@qq.com>"
+    }
+  }
+}
