@@ -1,0 +1,21 @@
+backend/tests/test_pipeline_translate.py
+  s_7921fd8bab6396::t_12c2ab5d21a7df 1-54
+backend/worker/pipelines/translate.py
+  s_7921fd8bab6396::t_f480deb010b39c 1-51
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.8",
+  "base_commit_sha": "cc593eeaa5a88fa337ea697ae7a9637b50520d92",
+  "prompts": {},
+  "sessions": {
+    "s_7921fd8bab6396": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3891f083-ae87-4242-90b1-2d7b28876901",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "xutianci <2378835994@qq.com>"
+    }
+  }
+}
