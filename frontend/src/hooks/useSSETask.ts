@@ -40,7 +40,10 @@ export function useSSETask() {
       const source = new EventSource(streamUrl(taskId));
       sourceRef.current = source;
 
+      let errorCount = 0;
+      let fallbackTriggered = false;
       source.onmessage = (ev) => {
+        errorCount = 0;
         const event = JSON.parse(ev.data);
         if (event.type === "token") {
           setStage(event.stage ?? null);
@@ -63,10 +66,10 @@ export function useSSETask() {
           source.close();
         }
       };
-      let errorCount = 0;
       source.onerror = () => {
         errorCount += 1;
-        if (errorCount >= 3) {
+        if (errorCount >= 3 && !fallbackTriggered) {
+          fallbackTriggered = true;
           source.close();
           pollTaskUntilDone(taskId, (polledStatus, result) => {
             if (polledStatus === "done") {
