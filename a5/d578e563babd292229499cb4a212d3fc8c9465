@@ -1,0 +1,37 @@
+frontend/tsconfig.json
+  s_7921fd8bab6396::t_f3da5e77bc3fd6 1-16
+frontend/src/setupTests.ts
+  s_7921fd8bab6396::t_044ed47e5bf29d 1
+frontend/src/App.tsx
+  s_7921fd8bab6396::t_b570d57d6ee97f 1-17
+frontend/package.json
+  s_7921fd8bab6396::t_d0d533b8e112e2 1-27
+.gitignore
+  s_7921fd8bab6396::t_ebe13e62b27005 7-8
+frontend/src/main.tsx
+  s_7921fd8bab6396::t_5d340dfb53419e 1-10
+frontend/vite.config.ts
+  s_7921fd8bab6396::t_bb4aa750695bb4 1-11
+frontend/index.html
+  s_7921fd8bab6396::t_360431703f7743 1-11
+frontend/src/styles/theme.css
+  s_7921fd8bab6396::t_9345e9012b1fe4 1-20
+frontend/package-lock.json
+  s_7921fd8bab6396::t_255ca26672e0c8 1-3201
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.8",
+  "base_commit_sha": "a5d578e563babd292229499cb4a212d3fc8c9465",
+  "prompts": {},
+  "sessions": {
+    "s_7921fd8bab6396": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3891f083-ae87-4242-90b1-2d7b28876901",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "xutianci <2378835994@qq.com>"
+    }
+  }
+}
