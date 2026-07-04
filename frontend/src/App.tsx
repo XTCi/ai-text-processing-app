@@ -1,10 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { FunctionList } from "./pages/FunctionList";
+import { SummarizePage } from "./pages/SummarizePage";
 import { TranslatePage } from "./pages/TranslatePage";
-
-function Placeholder({ label }: { label: string }) {
-  return <div>{label}</div>;
-}
 
 export default function App() {
   return (
@@ -12,7 +9,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<FunctionList />} />
         <Route path="/translate" element={<TranslatePage />} />
-        <Route path="/summarize" element={<Placeholder label="summarize-page" />} />
+        <Route path="/summarize" element={<SummarizePage />} />
       </Routes>
     </BrowserRouter>
   );
