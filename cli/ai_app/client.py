@@ -25,6 +25,7 @@ def submit_task(
 def stream_task(base_url: str, task_id: str, transport: httpx.BaseTransport | None = None) -> Iterator[dict]:
     with httpx.Client(base_url=base_url, transport=transport) as client:
         with client.stream("GET", f"/api/task/{task_id}/stream") as response:
+            response.raise_for_status()
             for line in response.iter_lines():
                 if not line.startswith("data: "):
                     continue

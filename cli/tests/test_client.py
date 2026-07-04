@@ -34,6 +34,15 @@ def test_stream_task_yields_parsed_events():
     assert events[1]["type"] == "done"
 
 
+def test_stream_task_raises_on_http_error():
+    def handler(request):
+        return httpx.Response(404, json={"detail": "task not found"})
+
+    transport = httpx.MockTransport(handler)
+    with pytest.raises(httpx.HTTPStatusError):
+        list(stream_task("http://test", "missing-task", transport=transport))
+
+
 def test_cancel_task_sends_delete():
     calls = []
 
