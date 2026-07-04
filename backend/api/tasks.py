@@ -56,7 +56,7 @@ async def _event_stream(redis, task_id: str):
         task = await task_service.get_task(redis, task_id)
         if task and task["status"] in {TaskStatus.DONE.value, TaskStatus.FAILED.value, TaskStatus.CANCELLED.value}:
             terminal = TaskEvent(
-                type=task["status"] if task["status"] != TaskStatus.DONE.value else "done",
+                type={"done": "done", "cancelled": "cancelled"}.get(task["status"], "error"),
                 result=task.get("result"),
                 message=task.get("error"),
                 duration_ms=int(task["duration_ms"]) if "duration_ms" in task else None,

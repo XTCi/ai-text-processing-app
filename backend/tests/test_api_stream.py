@@ -62,3 +62,17 @@ async def test_stream_replays_terminal_state_for_already_done_task(redis):
 
     assert events[0]["type"] == "done"
     assert events[0]["result"] == "你好"
+
+
+@pytest.mark.asyncio
+async def test_stream_replays_terminal_state_for_already_failed_task(redis):
+    task_id = await task_service.create_task(redis, "translate_en2zh", "Hello", None, "auto")
+    await task_service.set_status(redis, task_id, TaskStatus.FAILED, error="boom", duration_ms=50)
+
+    transport = ASGITransport(app=app)
+    async with AsyncClient(transport=transport, base_url="http://test") as client:
+        async with client.stream("GET", f"/api/task/{task_id}/stream") as response:
+            events = await asyncio.wait_for(_read_sse_events(response, 1), timeout=2)
+
+    assert events[0]["type"] == "error"
+    assert events[0]["message"] == "boom"
