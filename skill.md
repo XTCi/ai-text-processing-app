@@ -38,8 +38,10 @@ ai-app translate --text "Hello" --from en --to zh --host http://localhost:8000
 
 ## Output
 Streams the result to stdout as plain text; the command exits 0 on success.
-Press Ctrl+C to cancel an in-flight request — the CLI notifies the backend
-so the task queue stops processing it.
+Press Ctrl+C to cancel an in-flight request — the CLI notifies the backend,
+which marks the task cancelled cooperatively. If the task hasn't started
+yet it won't run; if it's already streaming, it stops at the next token
+boundary rather than instantly.
 
 ## Installation
 ```bash
