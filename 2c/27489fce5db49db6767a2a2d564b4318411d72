@@ -1,0 +1,26 @@
+frontend/src/__tests__/useSSETask.test.ts
+  s_7921fd8bab6396::t_f0ed9bd565cc45 1-81
+frontend/src/vite-env.d.ts
+  s_7921fd8bab6396::t_22e917ed20d07e 1
+frontend/src/hooks/useSSETask.ts
+  s_7921fd8bab6396::t_8c9820a6d79731 18,20
+  s_7921fd8bab6396::t_6fcfae5756ad28 1-17,19,21-80
+frontend/src/api/client.ts
+  s_7921fd8bab6396::t_82a111e958132a 1-25
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.8",
+  "base_commit_sha": "2c27489fce5db49db6767a2a2d564b4318411d72",
+  "prompts": {},
+  "sessions": {
+    "s_7921fd8bab6396": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3891f083-ae87-4242-90b1-2d7b28876901",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "xutianci <2378835994@qq.com>"
+    }
+  }
+}
