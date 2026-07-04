@@ -13,27 +13,31 @@ export function SummarizePage() {
   return (
     <div>
       <h1>文本总结</h1>
-      <VirtualTextarea value={text} onChange={setText} placeholder="粘贴长文本..." />
-      <label>
-        要点数
-        <input
-          type="number"
-          min={1}
-          max={10}
-          value={maxPoints}
-          onChange={(e) => setMaxPoints(Number(e.target.value))}
-        />
-      </label>
       <ModeToggle value={mode} onChange={setMode} />
-      <div>
-        <button onClick={() => start("summarize", text, maxPoints, mode)} disabled={status === "running"}>
-          开始总结
-        </button>
-        <button onClick={cancel} disabled={status !== "running"}>
-          停止生成
-        </button>
+      <div className="page-layout">
+        <div>
+          <VirtualTextarea value={text} onChange={setText} placeholder="粘贴长文本..." />
+          <label>
+            要点数
+            <input
+              type="number"
+              min={1}
+              max={10}
+              value={maxPoints}
+              onChange={(e) => setMaxPoints(Number(e.target.value))}
+            />
+          </label>
+          <div>
+            <button onClick={() => start("summarize", text, maxPoints, mode)} disabled={status === "running"}>
+              开始总结
+            </button>
+            <button onClick={cancel} disabled={status !== "running"}>
+              停止生成
+            </button>
+          </div>
+        </div>
+        <StreamingOutput text={output} status={status} progressMessage={progressMessage} />
       </div>
-      <StreamingOutput text={output} status={status} progressMessage={progressMessage} />
     </div>
   );
 }

@@ -25,16 +25,20 @@ export function TranslatePage() {
         <option value="zh2en">中译英</option>
       </select>
       <ModeToggle value={mode} onChange={setMode} />
-      <textarea value={text} onChange={(e) => setText(e.target.value)} rows={8} style={{ width: "100%" }} />
-      <div>
-        <button onClick={() => start(functionType, text, undefined, mode)} disabled={status === "running"}>
-          开始翻译
-        </button>
-        <button onClick={cancel} disabled={status !== "running"}>
-          停止生成
-        </button>
+      <div className="page-layout">
+        <div>
+          <textarea value={text} onChange={(e) => setText(e.target.value)} rows={8} style={{ width: "100%" }} />
+          <div>
+            <button onClick={() => start(functionType, text, undefined, mode)} disabled={status === "running"}>
+              开始翻译
+            </button>
+            <button onClick={cancel} disabled={status !== "running"}>
+              停止生成
+            </button>
+          </div>
+        </div>
+        <StreamingOutput text={output} status={status} progressMessage={progressMessage} />
       </div>
-      <StreamingOutput text={output} status={status} progressMessage={progressMessage} />
     </div>
   );
 }
