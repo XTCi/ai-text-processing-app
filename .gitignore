@@ -6,3 +6,4 @@ backend/data/
 dump.rdb
 node_modules/
 dist/
+.env
