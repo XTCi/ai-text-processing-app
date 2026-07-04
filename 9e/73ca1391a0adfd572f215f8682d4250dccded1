@@ -1,0 +1,19 @@
+skill.md
+  s_7921fd8bab6396::t_dd226e3e8075e3 41-44
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.8",
+  "base_commit_sha": "9e73ca1391a0adfd572f215f8682d4250dccded1",
+  "prompts": {},
+  "sessions": {
+    "s_7921fd8bab6396": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3891f083-ae87-4242-90b1-2d7b28876901",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "xutianci <2378835994@qq.com>"
+    }
+  }
+}
