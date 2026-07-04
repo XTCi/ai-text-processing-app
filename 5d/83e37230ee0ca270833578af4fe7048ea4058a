@@ -1,0 +1,22 @@
+frontend/src/hooks/useTaskPolling.ts
+  s_7921fd8bab6396::t_b99dda5a5baa3b 1-26
+frontend/src/hooks/useSSETask.ts
+  s_7921fd8bab6396::t_cd56767ba66395 66,68-81
+  s_7921fd8bab6396::t_4e2e3a93584067 3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.8",
+  "base_commit_sha": "5d83e37230ee0ca270833578af4fe7048ea4058a",
+  "prompts": {},
+  "sessions": {
+    "s_7921fd8bab6396": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3891f083-ae87-4242-90b1-2d7b28876901",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "xutianci <2378835994@qq.com>"
+    }
+  }
+}
