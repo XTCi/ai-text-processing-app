@@ -1,0 +1,21 @@
+cli/tests/test_client.py
+  s_7921fd8bab6396::t_21846f95efbcd1 37-45
+cli/ai_app/client.py
+  s_7921fd8bab6396::t_7f21676794b564 28
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.8",
+  "base_commit_sha": "ba9f86ea905f857d8ac815151ea5d5fd5fcb81ee",
+  "prompts": {},
+  "sessions": {
+    "s_7921fd8bab6396": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3891f083-ae87-4242-90b1-2d7b28876901",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "xutianci <2378835994@qq.com>"
+    }
+  }
+}
