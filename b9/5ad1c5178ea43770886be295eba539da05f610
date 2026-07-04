@@ -1,0 +1,25 @@
+frontend/package.json
+  s_7921fd8bab6396::t_d21d9fa9a50001 19
+frontend/src/components/ModeToggle.tsx
+  s_7921fd8bab6396::t_bf0864fb3c14b9 1-30
+frontend/src/__tests__/ModeToggle.test.tsx
+  s_7921fd8bab6396::t_928e14369911bd 1-19
+frontend/package-lock.json
+  s_7921fd8bab6396::t_b9eb1c59f98fc9 18,1349-1362
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.8",
+  "base_commit_sha": "b95ad1c5178ea43770886be295eba539da05f610",
+  "prompts": {},
+  "sessions": {
+    "s_7921fd8bab6396": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3891f083-ae87-4242-90b1-2d7b28876901",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "xutianci <2378835994@qq.com>"
+    }
+  }
+}
