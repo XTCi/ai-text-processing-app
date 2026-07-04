@@ -1,0 +1,23 @@
+frontend/src/styles/theme.css
+  s_7921fd8bab6396::t_6e15ef9f405201 21-43
+frontend/src/components/ThemeToggle.tsx
+  s_7921fd8bab6396::t_316e02e7de8513 1-24
+frontend/src/App.tsx
+  s_7921fd8bab6396::t_92f64517c93d67 5,10
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.8",
+  "base_commit_sha": "b8bcc5c97108fa53ff8672c29cf2f324fa2968f3",
+  "prompts": {},
+  "sessions": {
+    "s_7921fd8bab6396": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3891f083-ae87-4242-90b1-2d7b28876901",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "xutianci <2378835994@qq.com>"
+    }
+  }
+}
