@@ -1,0 +1,20 @@
+:root {
+  --bg: #ffffff;
+  --fg: #1a1a1a;
+  --accent: #2563eb;
+  --border: #e2e2e2;
+}
+
+:root[data-theme="dark"] {
+  --bg: #121212;
+  --fg: #eaeaea;
+  --accent: #60a5fa;
+  --border: #333333;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: system-ui, sans-serif;
+  margin: 0;
+}

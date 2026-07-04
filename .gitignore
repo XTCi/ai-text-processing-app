@@ -4,3 +4,5 @@ __pycache__/
 backend/data/
 *.db
 dump.rdb
+node_modules/
+dist/
