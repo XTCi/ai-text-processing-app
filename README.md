@@ -47,7 +47,7 @@ npm run dev
 
 # 5. CLI（可选，新终端）
 cd cli
-pip install -e .
+pip install -e ".[test]"   # 含 pytest；若只需运行 CLI 不跑测试，pip install -e . 即可
 ai-app translate --text "Hello" --from en --to zh
 ```
 
@@ -58,7 +58,7 @@ ai-app translate --text "Hello" --from en --to zh
 
 ```bash
 cd backend && python -m pytest        # 依赖 requirements.txt 中已包含的 pytest / pytest-asyncio / fakeredis
-cd cli && pip install pytest && python -m pytest   # cli 的运行依赖不含测试工具，需额外安装 pytest
+cd cli && pip install -e ".[test]" && python -m pytest   # [test] extra 含 pytest
 cd frontend && npm run test           # 等价于 vitest run
 ```
 
