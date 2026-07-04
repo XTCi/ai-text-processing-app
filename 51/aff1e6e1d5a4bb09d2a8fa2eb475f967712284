@@ -1,0 +1,31 @@
+docker-compose.yml
+  s_7921fd8bab6396::t_6c1346881af981 1-46
+Dockerfile.backend
+  s_7921fd8bab6396::t_7e3db6378cef78 1-7
+.env.example
+  s_7921fd8bab6396::t_67ecd57f9fb152 1-6
+.gitignore
+  s_7921fd8bab6396::t_5580e830045423 9
+Dockerfile.frontend
+  s_7921fd8bab6396::t_b9a9e5c861063e 1-12
+nginx.conf
+  s_7921fd8bab6396::t_911138130c4bfd 1-38
+Dockerfile.worker
+  s_7921fd8bab6396::t_1a2c01c7a8d2f0 1-7
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.8",
+  "base_commit_sha": "51aff1e6e1d5a4bb09d2a8fa2eb475f967712284",
+  "prompts": {},
+  "sessions": {
+    "s_7921fd8bab6396": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3891f083-ae87-4242-90b1-2d7b28876901",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "xutianci <2378835994@qq.com>"
+    }
+  }
+}
