@@ -1,0 +1,21 @@
+frontend/src/components/StreamingOutput.tsx
+  s_7921fd8bab6396::t_28dc039d12b040 1-19
+frontend/src/__tests__/StreamingOutput.test.tsx
+  s_7921fd8bab6396::t_0f0b75f4fa92fc 1-23
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.8",
+  "base_commit_sha": "c04fc5d7ab5e5e5c04c13b356d95aded86915f75",
+  "prompts": {},
+  "sessions": {
+    "s_7921fd8bab6396": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3891f083-ae87-4242-90b1-2d7b28876901",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "xutianci <2378835994@qq.com>"
+    }
+  }
+}
