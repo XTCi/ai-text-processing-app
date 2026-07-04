@@ -1,0 +1,22 @@
+cli/pyproject.toml
+  s_7921fd8bab6396::t_a3c20bee2c69b6 8-10
+README.md
+  s_7921fd8bab6396::t_53269da7008d4b 61
+  s_7921fd8bab6396::t_37df3c72c6cb10 50
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.8",
+  "base_commit_sha": "d64130448cd4d4c61dc605605fd8328e709e52ce",
+  "prompts": {},
+  "sessions": {
+    "s_7921fd8bab6396": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3891f083-ae87-4242-90b1-2d7b28876901",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "xutianci <2378835994@qq.com>"
+    }
+  }
+}
