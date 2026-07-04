@@ -1,5 +1,6 @@
 import { useCallback, useRef, useState } from "react";
 import { cancelTask, streamUrl, submitTask } from "../api/client";
+import { pollTaskUntilDone } from "./useTaskPolling";
 
 type Status = "idle" | "running" | "done" | "error" | "cancelled";
 
@@ -62,8 +63,22 @@ export function useSSETask() {
           source.close();
         }
       };
+      let errorCount = 0;
       source.onerror = () => {
-        // connection-level failure; caller can fall back to useTaskPolling
+        errorCount += 1;
+        if (errorCount >= 3) {
+          source.close();
+          pollTaskUntilDone(taskId, (polledStatus, result) => {
+            if (polledStatus === "done") {
+              setOutput(result ?? "");
+              setStatus("done");
+            } else if (polledStatus === "failed") {
+              setStatus("error");
+            } else if (polledStatus === "cancelled") {
+              setStatus("cancelled");
+            }
+          });
+        }
       };
     },
     [flush, scheduleFlush]
