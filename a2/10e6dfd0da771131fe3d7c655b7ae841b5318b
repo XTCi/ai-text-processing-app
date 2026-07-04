@@ -1,0 +1,26 @@
+agent.md
+  s_7921fd8bab6396::t_b73fe36a11c1d1 1-18
+spec/requirements.md
+  s_7921fd8bab6396::t_d686a622e302f8 1-11,15-26
+  s_7921fd8bab6396::t_4b48e5b66afbd1 12-14
+spec/api-design.md
+  s_7921fd8bab6396::t_a1944009991c96 1-30
+spec/ui-prototype.md
+  s_7921fd8bab6396::t_af3e58c22a4005 1-24
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.8",
+  "base_commit_sha": "a210e6dfd0da771131fe3d7c655b7ae841b5318b",
+  "prompts": {},
+  "sessions": {
+    "s_7921fd8bab6396": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3891f083-ae87-4242-90b1-2d7b28876901",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "xutianci <2378835994@qq.com>"
+    }
+  }
+}
