@@ -1,0 +1,21 @@
+frontend/src/App.tsx
+  s_7921fd8bab6396::t_ec47ac84c9717b 3,12
+frontend/src/pages/SummarizePage.tsx
+  s_7921fd8bab6396::t_af54cab2ebf3be 1-39
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.8",
+  "base_commit_sha": "6713bcae6f8caa7ce1d030f8f0bf3b7153e7258b",
+  "prompts": {},
+  "sessions": {
+    "s_7921fd8bab6396": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3891f083-ae87-4242-90b1-2d7b28876901",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "xutianci <2378835994@qq.com>"
+    }
+  }
+}
