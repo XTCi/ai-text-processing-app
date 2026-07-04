@@ -6,6 +6,7 @@ from core.config import settings
 from core.errors import register_exception_handlers
 from core.logging import TraceIdMiddleware, configure_logging
 from api.functions import router as functions_router
+from api.records import router as records_router
 from api.tasks import router as tasks_router
 from services.record_store import init_db
 
@@ -16,6 +17,7 @@ app.add_middleware(TraceIdMiddleware)
 register_exception_handlers(app)
 app.include_router(functions_router)
 app.include_router(tasks_router)
+app.include_router(records_router)
 
 
 @app.get("/health")
