@@ -18,3 +18,26 @@ body {
   font-family: system-ui, sans-serif;
   margin: 0;
 }
+
+@media (max-width: 640px) {
+  body {
+    font-size: 15px;
+  }
+  textarea {
+    font-size: 16px; /* avoid iOS zoom-on-focus */
+  }
+}
+
+.page-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+@media (min-width: 900px) {
+  .page-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}
