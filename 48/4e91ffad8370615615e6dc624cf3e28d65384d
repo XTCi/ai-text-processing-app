@@ -1,0 +1,24 @@
+README.md
+  s_7921fd8bab6396::t_0fe5b75b7ea8d8 89-98
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "484e91ffad8370615615e6dc624cf3e28d65384d",
+  "prompts": {},
+  "humans": {
+    "h_82d8be3f786602": {
+      "author": "xutianci <2378835994@qq.com>"
+    }
+  },
+  "sessions": {
+    "s_7921fd8bab6396": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3891f083-ae87-4242-90b1-2d7b28876901",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "xutianci <2378835994@qq.com>"
+    }
+  }
+}
