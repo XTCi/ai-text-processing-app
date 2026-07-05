@@ -86,6 +86,16 @@ ai-app summarize --text "长文本..." --max-points 3
 
 见 `skill.md` 了解如何让 Agent（ClaudeCode/OpenClaw）发现并调用这个 CLI。
 
+### Agent 调用截图
+
+以下是在 Claude Code 中实际提问翻译请求，Claude Code 自动发现并调用
+`.claude/skills/ai-app/SKILL.md` 注册的 skill、进而通过 `ai-app` CLI
+完成翻译的真实截图（可见 `Skill(ai-app)` → 写入临时文件 →
+`Bash(./cli/.venv/bin/ai-app translate --text-file ... --from zh --to en)`
+的完整调用链路）：
+
+![Claude Code 发现并调用 ai-app CLI 的截图](docs/skill-invocation-screenshot.png)
+
 ## 项目文档
 
 - 设计文档：`docs/superpowers/specs/2026-07-03-ai-text-processing-app-design.md`
