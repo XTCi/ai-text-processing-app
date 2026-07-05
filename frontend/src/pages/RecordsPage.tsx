@@ -57,7 +57,7 @@ export function RecordsPage() {
           </thead>
           <tbody>
             {records.map((record) => (
-              <tr key={record.task_id}>
+              <tr key={record.id}>
                 <td>{record.created_at}</td>
                 <td>{record.function_type}</td>
                 <td>{record.status}</td>
