@@ -1,0 +1,44 @@
+frontend/src/components/StreamingOutput.tsx
+  s_7921fd8bab6396::t_f4aec45aa3dd6c 9-10,13-25,27-31
+frontend/src/components/ModeToggle.tsx
+  s_7921fd8bab6396::t_4349896296075d 16,21
+frontend/src/App.tsx
+  s_7921fd8bab6396::t_b62498fe423ad3 1,11-27
+frontend/src/styles/theme.css
+  s_7921fd8bab6396::t_a690ab4e807a64 1,3-28,32-65,69-73,75-76,79-84,87-106,109-194,196-420,422-559,566-581
+frontend/src/pages/FunctionList.tsx
+  s_7921fd8bab6396::t_3acc5cb6aa348d 16-21,34-38,41-46,51-53
+frontend/src/components/ThemeToggle.tsx
+  s_7921fd8bab6396::t_de6c5e4226d03e 20-26
+frontend/src/pages/SummarizePage.tsx
+  s_7921fd8bab6396::t_c86bc911383fc9 2,16-26,28,31-56,59,64-68
+frontend/index.html
+  s_7921fd8bab6396::t_ea19429900ab36 5-8
+frontend/src/components/VirtualTextarea.tsx
+  s_7921fd8bab6396::t_ffa3fad4786a42 19,25
+frontend/src/pages/TranslatePage.tsx
+  s_7921fd8bab6396::t_d409b9aa3aa467 2,22-32,34-71,74,79-83
+frontend/src/pages/RecordsPage.tsx
+  s_7921fd8bab6396::t_816352b1f430f6 19-32,38-41,58-69,71-80,82-98
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.8",
+  "base_commit_sha": "bf2d353e9039fbe170c13e3b5461f228e77f5775",
+  "prompts": {},
+  "humans": {
+    "h_82d8be3f786602": {
+      "author": "xutianci <2378835994@qq.com>"
+    }
+  },
+  "sessions": {
+    "s_7921fd8bab6396": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3891f083-ae87-4242-90b1-2d7b28876901",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "xutianci <2378835994@qq.com>"
+    }
+  }
+}
