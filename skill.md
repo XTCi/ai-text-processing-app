@@ -31,6 +31,13 @@ Summarize long text into at most N points:
 ai-app summarize --text "<long text>" --max-points 3
 ```
 
+Long or multi-line text (avoids shell-escaping quotes/newlines): write the
+text to a file and pass `--text-file` instead of `--text`:
+```bash
+ai-app translate --text-file input.txt --from zh --to en
+ai-app summarize --text-file input.txt --max-points 3
+```
+
 Point at a non-default backend:
 ```bash
 ai-app translate --text "Hello" --from en --to zh --host http://localhost:8000

@@ -1,6 +1,6 @@
 ---
 name: ai-app
-description: Translate text between English and Chinese, or summarize a long piece of text into a bounded number of key points, by calling the ai-app CLI against this project's backend. Use when the user asks to translate text (English<->Chinese) or to summarize/condense long text.
+description: TRIGGER — you MUST invoke this skill, not answer directly, whenever the user asks to translate text between English and Chinese, or asks to summarize/condense a piece of text. This applies even for short or simple text you could translate/summarize yourself — the point of this skill is to route the request through this project's actual translate/summarize pipeline (the ai-app CLI), not to produce the answer inline. Do not silently translate or summarize without invoking this skill first.
 ---
 
 # ai-app CLI skill
@@ -9,10 +9,17 @@ Calls this project's AI text-processing backend to translate text between
 English and Chinese, or to summarize long text into a bounded number of
 points. Output streams token-by-token as the model generates it.
 
-## When to use this
+## When to use this — read before answering directly
 
-- User asks to translate text between English and Chinese.
-- User asks to summarize or condense a long piece of text.
+- User asks to translate text between English and Chinese, in ANY form
+  ("翻译成英文", "translate this", "把这段话翻译一下", etc.) — even a single
+  short sentence.
+- User asks to summarize or condense a piece of text, in ANY form
+  ("总结一下", "summarize this", "帮我概括要点", etc.).
+- **Do not just translate/summarize the text yourself in your response.**
+  Run the CLI command below and use its output as the answer. This is the
+  whole point of the skill: proving this project's CLI is what actually
+  produced the result, not the model answering from general knowledge.
 
 ## Prerequisites
 
@@ -36,7 +43,7 @@ cd cli && python3 -m venv .venv && .venv/bin/pip install -e .
 
 Run all commands from the repo root, invoking the venv binary directly:
 
-Translate English to Chinese:
+Translate English to Chinese (short, simple text only):
 
 ```bash
 ./cli/.venv/bin/ai-app translate --text "Hello, world" --from en --to zh
@@ -59,6 +66,23 @@ Point at a non-default backend host:
 ```bash
 ./cli/.venv/bin/ai-app translate --text "Hello" --from en --to zh --host http://localhost:8000
 ```
+
+### Long or multi-line text: use `--text-file`, not `--text`
+
+`--text` is a raw inline shell argument — for anything with more than one
+line, or containing quotes/backticks/`$`/other shell-special characters
+(e.g. a multi-paragraph passage the user pasted), do NOT try to shell-escape
+it into `--text "..."`. Instead:
+
+1. Write the exact text to a temp file (e.g. `/tmp/ai-app-input.txt`).
+2. Pass `--text-file <path>` instead of `--text`.
+
+```bash
+./cli/.venv/bin/ai-app translate --text-file /tmp/ai-app-input.txt --from zh --to en
+./cli/.venv/bin/ai-app summarize --text-file /tmp/ai-app-input.txt --max-points 3
+```
+
+`--text` and `--text-file` are mutually exclusive — pass exactly one.
 
 ## Output
 

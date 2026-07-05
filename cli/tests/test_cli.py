@@ -46,6 +46,60 @@ def test_translate_rejects_unknown_direction():
     assert result.exit_code != 0
 
 
+def test_translate_reads_text_from_file(tmp_path):
+    text_file = tmp_path / "input.txt"
+    text_file.write_text("Multi-line text with \"quotes\", `backticks`, and $vars.\nSecond line.\n")
+
+    with patch("ai_app.main.submit_task", return_value="task-4") as mock_submit, patch(
+        "ai_app.main.stream_task",
+        return_value=iter([{"type": "done", "result": "翻译结果"}]),
+    ):
+        runner = CliRunner()
+        result = runner.invoke(
+            cli, ["translate", "--text-file", str(text_file), "--from", "en", "--to", "zh"]
+        )
+
+    assert result.exit_code == 0
+    assert mock_submit.call_args.kwargs["text"] == (
+        'Multi-line text with "quotes", `backticks`, and $vars.\nSecond line.'
+    )
+
+
+def test_summarize_reads_text_from_file(tmp_path):
+    text_file = tmp_path / "input.txt"
+    text_file.write_text("长文本内容\n第二行\n")
+
+    with patch("ai_app.main.submit_task", return_value="task-5") as mock_submit, patch(
+        "ai_app.main.stream_task",
+        return_value=iter([{"type": "done", "result": "要点"}]),
+    ):
+        runner = CliRunner()
+        result = runner.invoke(cli, ["summarize", "--text-file", str(text_file)])
+
+    assert result.exit_code == 0
+    assert mock_submit.call_args.kwargs["text"] == "长文本内容\n第二行"
+
+
+def test_translate_requires_text_or_text_file():
+    runner = CliRunner()
+    result = runner.invoke(cli, ["translate", "--from", "en", "--to", "zh"])
+    assert result.exit_code != 0
+    assert "--text" in result.output and "--text-file" in result.output
+
+
+def test_translate_rejects_both_text_and_text_file(tmp_path):
+    text_file = tmp_path / "input.txt"
+    text_file.write_text("file content")
+
+    runner = CliRunner()
+    result = runner.invoke(
+        cli,
+        ["translate", "--text", "inline", "--text-file", str(text_file), "--from", "en", "--to", "zh"],
+    )
+    assert result.exit_code != 0
+    assert "--text" in result.output and "--text-file" in result.output
+
+
 def test_translate_command_handles_cancelled_event():
     # Mimics the terminal-state-replay path: a task that was already cancelled before the
     # CLI subscribes only emits a single synthesized `cancelled` event.

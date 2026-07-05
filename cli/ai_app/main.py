@@ -42,21 +42,36 @@ def _run_and_stream(base_url: str, function_type: str, text: str, max_points: in
         sys.exit(1)
 
 
+def _resolve_text(text: str | None, text_file: str | None) -> str:
+    if text is not None and text_file is not None:
+        raise click.UsageError("pass either --text or --text-file, not both")
+    if text is None and text_file is None:
+        raise click.UsageError("one of --text or --text-file is required")
+    if text_file is not None:
+        with open(text_file, encoding="utf-8") as f:
+            return f.read().rstrip("\n")
+    return text
+
+
 @cli.command()
-@click.option("--text", required=True)
+@click.option("--text", default=None)
+@click.option("--text-file", type=click.Path(exists=True, dir_okay=False), default=None)
 @click.option("--from", "from_lang", required=True, type=click.Choice(["en", "zh"]))
 @click.option("--to", "to_lang", required=True, type=click.Choice(["en", "zh"]))
 @click.option("--host", default="http://localhost:8000")
-def translate(text: str, from_lang: str, to_lang: str, host: str) -> None:
+def translate(text: str | None, text_file: str | None, from_lang: str, to_lang: str, host: str) -> None:
+    resolved_text = _resolve_text(text, text_file)
     function_type = _DIRECTION_MAP.get((from_lang, to_lang))
     if function_type is None:
         raise click.BadParameter(f"unsupported direction {from_lang}->{to_lang}")
-    _run_and_stream(host, function_type, text, None)
+    _run_and_stream(host, function_type, resolved_text, None)
 
 
 @cli.command()
-@click.option("--text", required=True)
+@click.option("--text", default=None)
+@click.option("--text-file", type=click.Path(exists=True, dir_okay=False), default=None)
 @click.option("--max-points", default=3, type=int)
 @click.option("--host", default="http://localhost:8000")
-def summarize(text: str, max_points: int, host: str) -> None:
-    _run_and_stream(host, "summarize", text, max_points)
+def summarize(text: str | None, text_file: str | None, max_points: int, host: str) -> None:
+    resolved_text = _resolve_text(text, text_file)
+    _run_and_stream(host, "summarize", resolved_text, max_points)
