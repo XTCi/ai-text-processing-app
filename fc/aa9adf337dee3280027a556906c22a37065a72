@@ -1,0 +1,26 @@
+.claude/skills/ai-app/SKILL.md
+  s_7921fd8bab6396::t_9a7beb03d6a28f 42,48,54,60
+  s_7921fd8bab6396::t_886c5189e66358 2-3,6,28-29,32,36-37
+  s_7921fd8bab6396::t_bed934b1a850f9 1,4-5,7-27,30-31,33-35,38-41,43-47,49-53,55-59,61-73
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.8",
+  "base_commit_sha": "fcaa9adf337dee3280027a556906c22a37065a72",
+  "prompts": {},
+  "humans": {
+    "h_82d8be3f786602": {
+      "author": "xutianci <2378835994@qq.com>"
+    }
+  },
+  "sessions": {
+    "s_7921fd8bab6396": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3891f083-ae87-4242-90b1-2d7b28876901",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "xutianci <2378835994@qq.com>"
+    }
+  }
+}
