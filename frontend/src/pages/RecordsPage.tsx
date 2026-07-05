@@ -16,9 +16,27 @@ interface CallRecord {
 
 const MAX_PREVIEW_LENGTH = 40;
 
+const FUNCTION_LABELS: Record<string, string> = {
+  translate_en2zh: "英译中",
+  translate_zh2en: "中译英",
+  summarize: "文本总结",
+};
+
+const STATUS_LABELS: Record<string, string> = {
+  done: "完成",
+  failed: "失败",
+  running: "运行中",
+  pending: "等待中",
+  cancelled: "已取消",
+};
+
 function truncate(text: string, length = MAX_PREVIEW_LENGTH): string {
   if (!text) return "";
   return text.length > length ? `${text.slice(0, length)}…` : text;
+}
+
+function StatusBadge({ status }: { status: string }) {
+  return <span className={`badge badge-${status}`}>{STATUS_LABELS[status] ?? status}</span>;
 }
 
 export function RecordsPage() {
@@ -37,37 +55,47 @@ export function RecordsPage() {
 
   return (
     <div>
-      <h1>历史记录</h1>
-      <p>
-        <Link to="/">返回首页</Link>
-      </p>
-      {error && <p>{error}</p>}
-      {!error && records.length === 0 && <p>暂无记录</p>}
+      <Link to="/" className="back-link">
+        ← 返回首页
+      </Link>
+      <div className="page-header">
+        <span className="page-header-icon" aria-hidden="true">
+          📊
+        </span>
+        <h1>历史记录</h1>
+      </div>
+
+      {error && <div className="empty-state">{error}</div>}
+      {!error && records.length === 0 && <div className="empty-state">暂无记录，去试试翻译或总结吧</div>}
       {!error && records.length > 0 && (
-        <table>
-          <thead>
-            <tr>
-              <th>时间</th>
-              <th>功能类型</th>
-              <th>状态</th>
-              <th>耗时(ms)</th>
-              <th>输入</th>
-              <th>输出</th>
-            </tr>
-          </thead>
-          <tbody>
-            {records.map((record) => (
-              <tr key={record.id}>
-                <td>{record.created_at}</td>
-                <td>{record.function_type}</td>
-                <td>{record.status}</td>
-                <td>{record.duration_ms}</td>
-                <td title={record.input_text}>{truncate(record.input_text)}</td>
-                <td title={record.output_text}>{truncate(record.output_text)}</td>
+        <div className="table-wrap">
+          <table className="data-table">
+            <thead>
+              <tr>
+                <th>时间</th>
+                <th>功能</th>
+                <th>状态</th>
+                <th>耗时</th>
+                <th>输入</th>
+                <th>输出</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {records.map((record) => (
+                <tr key={record.id}>
+                  <td className="cell-mono">{record.created_at}</td>
+                  <td>{FUNCTION_LABELS[record.function_type] ?? record.function_type}</td>
+                  <td>
+                    <StatusBadge status={record.status} />
+                  </td>
+                  <td className="cell-mono">{record.duration_ms} ms</td>
+                  <td title={record.input_text}>{truncate(record.input_text)}</td>
+                  <td title={record.output_text}>{truncate(record.output_text)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );

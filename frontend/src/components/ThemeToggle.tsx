@@ -17,8 +17,13 @@ export function ThemeToggle() {
   }, [theme]);
 
   return (
-    <button onClick={() => setTheme((t) => (t === "dark" ? "light" : "dark"))}>
-      {theme === "dark" ? "🌙 深色" : "☀️ 浅色"}
+    <button
+      className="btn-icon"
+      title={theme === "dark" ? "切换到浅色模式" : "切换到深色模式"}
+      aria-label={theme === "dark" ? "切换到浅色模式" : "切换到深色模式"}
+      onClick={() => setTheme((t) => (t === "dark" ? "light" : "dark"))}
+    >
+      {theme === "dark" ? "🌙" : "☀️"}
     </button>
   );
 }

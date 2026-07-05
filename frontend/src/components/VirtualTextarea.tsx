@@ -16,20 +16,17 @@ export function VirtualTextarea({ value, onChange, placeholder }: Props) {
   return (
     <div>
       {shouldVirtualize && (
-        <div
-          data-testid="virtual-preview"
-          style={{ maxHeight: `${VISIBLE_LINES * 1.4}em`, overflowY: "auto", opacity: 0.6 }}
-        >
+        <div className="virtual-preview" data-testid="virtual-preview">
           {lines.slice(0, VISIBLE_LINES).join("\n")}
           {"\n… (" + (lines.length - VISIBLE_LINES) + " 行未显示，可直接在下方输入框继续编辑)"}
         </div>
       )}
       <textarea
+        className="textarea"
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         rows={shouldVirtualize ? 6 : 16}
-        style={{ width: "100%" }}
       />
     </div>
   );

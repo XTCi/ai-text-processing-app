@@ -13,6 +13,12 @@ const LINKS: Record<string, string> = {
   summarize: "/summarize",
 };
 
+const ICONS: Record<string, string> = {
+  translate_en2zh: "🇬🇧→🇨🇳",
+  translate_zh2en: "🇨🇳→🇬🇧",
+  summarize: "📝",
+};
+
 export function FunctionList() {
   const [functions, setFunctions] = useState<FunctionInfo[]>([]);
 
@@ -25,20 +31,26 @@ export function FunctionList() {
 
   return (
     <div>
-      <h1>AI 文本处理</h1>
-      <ul>
+      <div className="page-header">
+        <h1>选择一个功能</h1>
+        <span className="page-subtitle">流式输出 · 可随时取消 · 支持思考模式</span>
+      </div>
+      <ul className="card-grid">
         {functions.map((f) => (
           <li key={f.id}>
-            <Link to={LINKS[f.id] ?? "/"}>
-              <strong>{f.name}</strong>
-              <p>{f.description}</p>
+            <Link to={LINKS[f.id] ?? "/"} className="function-card">
+              <span className="function-card-icon" aria-hidden="true">
+                {ICONS[f.id] ?? "✨"}
+              </span>
+              <span className="function-card-title">{f.name}</span>
+              <span className="function-card-desc">{f.description}</span>
             </Link>
           </li>
         ))}
       </ul>
-      <p>
-        <Link to="/records">查看历史记录</Link>
-      </p>
+      <Link to="/records" className="back-link">
+        📊 查看历史记录
+      </Link>
     </div>
   );
 }

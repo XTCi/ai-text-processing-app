@@ -13,11 +13,12 @@ const OPTIONS: { mode: Mode; label: string }[] = [
 
 export function ModeToggle({ value, onChange }: Props) {
   return (
-    <div role="group" aria-label="模型模式">
+    <div className="segmented" role="group" aria-label="模型模式">
       {OPTIONS.map(({ mode, label }) => (
         <button
           key={mode}
           type="button"
+          className="segmented-option"
           data-testid={`mode-${mode}`}
           aria-pressed={value === mode}
           onClick={() => onChange(mode)}
