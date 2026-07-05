@@ -6,8 +6,7 @@ class Settings(BaseSettings):
 
     llm_base_url: str = "https://api.deepseek.com"
     llm_api_key: str = ""
-    llm_model_fast: str = "deepseek-chat"
-    llm_model_think: str = "deepseek-reasoner"
+    llm_model: str = "deepseek-v4-flash"
     redis_url: str = "redis://localhost:6379/0"
     sqlite_path: str = "./data/app.db"
     task_timeout_seconds: int = 60

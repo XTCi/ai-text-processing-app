@@ -66,19 +66,21 @@ async def test_stream_completion_uses_real_client_when_key_present(monkeypatch):
     deltas = [d async for d in llm_client.stream_completion([{"role": "user", "content": "hi"}], ModelMode.FAST)]
 
     assert deltas == ["你", "好"]
-    assert fake_client.chat.completions.last_call["model"] == settings.llm_model_fast
+    assert fake_client.chat.completions.last_call["model"] == settings.llm_model
     assert fake_client.chat.completions.last_call["stream"] is True
+    assert fake_client.chat.completions.last_call["extra_body"] == {"thinking": {"type": "disabled"}}
 
 
 @pytest.mark.asyncio
-async def test_stream_completion_picks_think_model(monkeypatch):
+async def test_stream_completion_enables_thinking_for_think_mode(monkeypatch):
     monkeypatch.setattr(settings, "llm_api_key", "sk-test")
     fake_client = _FakeAsyncOpenAI(["ok"])
     monkeypatch.setattr(llm_client, "_get_client", lambda: fake_client)
 
     [d async for d in llm_client.stream_completion([{"role": "user", "content": "hi"}], ModelMode.THINK)]
 
-    assert fake_client.chat.completions.last_call["model"] == settings.llm_model_think
+    assert fake_client.chat.completions.last_call["model"] == settings.llm_model
+    assert fake_client.chat.completions.last_call["extra_body"] == {"thinking": {"type": "enabled"}}
 
 
 @pytest.mark.asyncio

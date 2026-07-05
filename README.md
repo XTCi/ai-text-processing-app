@@ -6,7 +6,8 @@
 ## 技术栈
 - 后端：Python 3.11 + FastAPI + `arq`（Redis 异步任务队列）+ SQLite
 - 大模型：OpenAI 兼容格式（`openai` SDK），默认指向 DeepSeek
-  （`deepseek-chat` 快速模式 / `deepseek-reasoner` 思考模式）
+  `deepseek-v4-flash`，快速/思考模式通过请求参数 `thinking.type`（`enabled`/`disabled`）
+  切换，而非切换模型名（`deepseek-chat`/`deepseek-reasoner` 已于 2026-07-24 弃用）
 - 前端：React + TypeScript + Vite
 - CLI：Python `click`
 - 部署：Docker Compose（frontend/backend/worker/redis）

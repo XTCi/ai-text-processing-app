@@ -38,9 +38,14 @@ async def stream_completion(messages: list[dict], mode: ModelMode) -> AsyncItera
             yield delta
         return
 
-    model = settings.llm_model_think if mode == ModelMode.THINK else settings.llm_model_fast
     client = _get_client()
-    stream = await client.chat.completions.create(model=model, messages=messages, stream=True)
+    thinking_type = "enabled" if mode == ModelMode.THINK else "disabled"
+    stream = await client.chat.completions.create(
+        model=settings.llm_model,
+        messages=messages,
+        stream=True,
+        extra_body={"thinking": {"type": thinking_type}},
+    )
     async for chunk in stream:
         delta = chunk.choices[0].delta.content
         if delta:

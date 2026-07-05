@@ -5,8 +5,7 @@ def test_settings_default_urls(monkeypatch):
     from core import config
     importlib.reload(config)
     assert config.settings.llm_base_url == "https://api.deepseek.com"
-    assert config.settings.llm_model_fast == "deepseek-chat"
-    assert config.settings.llm_model_think == "deepseek-reasoner"
+    assert config.settings.llm_model == "deepseek-v4-flash"
     assert config.settings.llm_api_key == ""
 
 def test_settings_reads_env(monkeypatch):
