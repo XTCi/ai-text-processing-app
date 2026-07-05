@@ -1,0 +1,41 @@
+cli/ai_app/main.py
+  s_7921fd8bab6396::t_ab6fe794a9c942 36-38
+frontend/src/pages/RecordsPage.tsx
+  s_7921fd8bab6396::t_a4cb995856dd59 1-74
+backend/worker/tasks.py
+  s_7921fd8bab6396::t_9cec817dc4e91b 30,46-57,77-79
+  s_7921fd8bab6396::t_c5145052c8d71b 1
+frontend/src/App.tsx
+  s_7921fd8bab6396::t_d88277de64e962 5,16
+frontend/src/pages/FunctionList.tsx
+  s_7921fd8bab6396::t_56707e24923b68 22-23,39-41
+backend/tests/test_worker_tasks.py
+  s_7921fd8bab6396::t_a958ff825b346c 115-147
+  s_7921fd8bab6396::t_4751d0bde8163d 1
+frontend/src/__tests__/useSSETask.test.ts
+  s_7921fd8bab6396::t_1fc23e77d9353e 55-90
+frontend/src/api/client.ts
+  s_7921fd8bab6396::t_090abaa9c81cf0 1
+frontend/src/hooks/useTaskPolling.ts
+  s_7921fd8bab6396::t_8c4a36ac1e73f0 1-2,4
+cli/tests/test_cli.py
+  s_7921fd8bab6396::t_7a6cedee7116e7 47-60
+frontend/src/hooks/useSSETask.ts
+  s_7921fd8bab6396::t_ca7875d28a6bd4 57-59
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.8",
+  "base_commit_sha": "a6c8ec7d78f984600578e652623339e8826bfbfa",
+  "prompts": {},
+  "sessions": {
+    "s_7921fd8bab6396": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3891f083-ae87-4242-90b1-2d7b28876901",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "xutianci <2378835994@qq.com>"
+    }
+  }
+}
