@@ -33,6 +33,9 @@ def _run_and_stream(base_url: str, function_type: str, text: str, max_points: in
             elif event["type"] == "error":
                 click.echo(f"\n[error] {event.get('message')}", err=True)
                 sys.exit(1)
+            elif event["type"] == "cancelled":
+                click.echo("\n[cancelled]")
+                sys.exit(1)
     except KeyboardInterrupt:
         cancel_task(base_url, task_id)
         click.echo("\n[cancelled]")

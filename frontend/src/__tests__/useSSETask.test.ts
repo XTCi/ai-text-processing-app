@@ -52,6 +52,42 @@ describe("useSSETask", () => {
     expect(result.current.output).toBe("你好");
   });
 
+  it("uses event.result as the authoritative output on done, not the accumulated tokens", async () => {
+    // Mimics think-mode translate: Draft tokens stream, then Review tokens stream (a
+    // different final answer), then a `done` event carries the final reviewed text.
+    const { result } = renderHook(() => useSSETask());
+
+    await act(async () => {
+      await result.current.start("translate_en2zh", "Hello");
+    });
+
+    const source = MockEventSource.instances[0];
+    act(() => source.emit({ type: "token", stage: "draft", delta: "你好" }));
+    act(() => source.emit({ type: "token", stage: "review", delta: "你好呀" }));
+    act(() => source.emit({ type: "done", result: "你好呀" }));
+
+    await waitFor(() => expect(result.current.status).toBe("done"));
+    // Accumulated tokens would have been "你好你好呀" (concatenated); the fix must
+    // discard that in favor of the authoritative event.result.
+    expect(result.current.output).toBe("你好呀");
+  });
+
+  it("renders a terminal-state-replay done event with no preceding tokens", async () => {
+    // Mimics the SSE terminal-state-replay path for an already-completed task: only a
+    // synthesized `done` event arrives, with `result` set and no `token` events at all.
+    const { result } = renderHook(() => useSSETask());
+
+    await act(async () => {
+      await result.current.start("translate_en2zh", "Hello");
+    });
+
+    const source = MockEventSource.instances[0];
+    act(() => source.emit({ type: "done", result: "已完成的翻译结果" }));
+
+    await waitFor(() => expect(result.current.status).toBe("done"));
+    expect(result.current.output).toBe("已完成的翻译结果");
+  });
+
   it("surfaces progress messages", async () => {
     const { result } = renderHook(() => useSSETask());
     await act(async () => {

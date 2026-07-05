@@ -54,6 +54,9 @@ export function useSSETask() {
           setProgressMessage(event.message ?? null);
         } else if (event.type === "done") {
           flush();
+          if (event.result !== null && event.result !== undefined) {
+            setOutput(event.result);
+          }
           setStatus("done");
           source.close();
         } else if (event.type === "error") {

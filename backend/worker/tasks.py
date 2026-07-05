@@ -1,3 +1,4 @@
+import asyncio
 import time
 
 from models.events import TaskEvent
@@ -26,6 +27,7 @@ async def execute_task(ctx: dict, task_id: str) -> None:
     result_text = ""
     status = TaskStatus.DONE
     error_message: str | None = None
+    pending_cancellation: asyncio.CancelledError | None = None
 
     try:
         if function_type == FunctionType.SUMMARIZE:
@@ -41,6 +43,18 @@ async def execute_task(ctx: dict, task_id: str) -> None:
             await _publish(redis, task_id, event)
             if event.type == "done":
                 result_text = event.result or ""
+    except asyncio.CancelledError as exc:
+        # arq enforces `job_timeout` by cancelling this coroutine, which raises
+        # asyncio.CancelledError (a BaseException, not caught by `except Exception`
+        # below). Treat it as a failure so the task doesn't get stuck at `running`
+        # until its 24h TTL expires and a connected client isn't left hanging on an
+        # open SSE stream forever. Persistence below still runs before we re-raise,
+        # since idiomatic asyncio requires propagating cancellation to the caller
+        # (arq) after cleanup.
+        status = TaskStatus.FAILED
+        error_message = "task timed out"
+        pending_cancellation = exc
+        await _publish(redis, task_id, TaskEvent(type="error", message=error_message))
     except Exception as exc:  # noqa: BLE001 - persisted below, not swallowed
         status = TaskStatus.FAILED
         error_message = str(exc)
@@ -60,3 +74,6 @@ async def execute_task(ctx: dict, task_id: str) -> None:
         status=status,
         duration_ms=duration_ms,
     )
+
+    if pending_cancellation is not None:
+        raise pending_cancellation

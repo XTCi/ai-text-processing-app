@@ -44,3 +44,17 @@ def test_translate_rejects_unknown_direction():
     runner = CliRunner()
     result = runner.invoke(cli, ["translate", "--text", "Hello", "--from", "fr", "--to", "zh"])
     assert result.exit_code != 0
+
+
+def test_translate_command_handles_cancelled_event():
+    # Mimics the terminal-state-replay path: a task that was already cancelled before the
+    # CLI subscribes only emits a single synthesized `cancelled` event.
+    with patch("ai_app.main.submit_task", return_value="task-3"), patch(
+        "ai_app.main.stream_task",
+        return_value=iter([{"type": "cancelled"}]),
+    ):
+        runner = CliRunner()
+        result = runner.invoke(cli, ["translate", "--text", "Hello", "--from", "en", "--to", "zh"])
+
+    assert result.exit_code != 0
+    assert "[cancelled]" in result.output

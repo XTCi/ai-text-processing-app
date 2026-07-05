@@ -1,5 +1,7 @@
+import { API_BASE } from "../api/client";
+
 async function fetchStatus(taskId: string): Promise<{ status: string; result?: string }> {
-  const resp = await fetch(`/api/task/${taskId}`);
+  const resp = await fetch(`${API_BASE}/api/task/${taskId}`);
   return resp.json();
 }
 

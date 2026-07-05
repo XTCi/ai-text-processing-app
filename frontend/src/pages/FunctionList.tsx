@@ -19,7 +19,8 @@ export function FunctionList() {
   useEffect(() => {
     fetch("/api/functions")
       .then((r) => r.json())
-      .then((body) => setFunctions(body.functions));
+      .then((body) => setFunctions(body.functions))
+      .catch((err) => console.error("failed to load functions", err));
   }, []);
 
   return (
@@ -35,6 +36,9 @@ export function FunctionList() {
           </li>
         ))}
       </ul>
+      <p>
+        <Link to="/records">查看历史记录</Link>
+      </p>
     </div>
   );
 }

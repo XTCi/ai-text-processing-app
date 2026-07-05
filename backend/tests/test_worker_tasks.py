@@ -1,3 +1,4 @@
+import asyncio
 import json
 
 import pytest
@@ -111,3 +112,36 @@ async def test_execute_task_marks_failed_on_pipeline_error(monkeypatch, redis, t
     assert task["status"] == "failed"
     assert "model API down" in task["error"]
     assert task.get("result") is None
+
+
+@pytest.mark.asyncio
+async def test_execute_task_persists_state_on_timeout_cancellation(monkeypatch, redis, tmp_path):
+    # arq enforces `job_timeout` by cancelling the running coroutine, which raises
+    # asyncio.CancelledError (a BaseException, NOT caught by `except Exception`).
+    # Simulate that here and assert the worker still persists status/record/SSE event
+    # instead of leaving the task stuck at `running` forever.
+    async def fake_run_translate(text, function_type, mode):
+        raise asyncio.CancelledError()
+        yield  # pragma: no cover - unreachable, keeps this an async generator
+
+    monkeypatch.setattr(worker_tasks, "run_translate", fake_run_translate)
+
+    db_path = str(tmp_path / "app.db")
+    from services.record_store import init_db
+    await init_db(db_path)
+
+    task_id = await task_service.create_task(redis, "translate_en2zh", "Hello", None, "auto")
+    ctx = {"redis": redis, "sqlite_path": db_path}
+
+    with pytest.raises(asyncio.CancelledError):
+        await worker_tasks.execute_task(ctx, task_id)
+
+    task = await task_service.get_task(redis, task_id)
+    assert task["status"] == "failed"
+    assert "duration_ms" in task
+    assert task.get("result") is None
+
+    from services.record_store import list_records
+    records = await list_records(db_path)
+    assert len(records) == 1
+    assert records[0]["status"] == "failed"
